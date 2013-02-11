@@ -84,10 +84,11 @@ public:
     {
         CString messageString(message); 
 
-        LPCSTR narrowMessage = Utilities::ConvertToMultibyteString(message); 
+        LPCSTR narrowMessage = Utilities::ConvertToMultibyteString(message);
+        int messageBytes = narrowMessage != NULL ? strlen(narrowMessage) : 0;
 
         DWORD charsWritten; 
-        BOOL bWorked = ::WriteFile(get_StandardOutput(), narrowMessage, messageString.GetLength(), &charsWritten, NULL); 
+        BOOL bWorked = ::WriteFile(get_StandardOutput(), narrowMessage, messageBytes, &charsWritten, NULL);
 
         Utilities::Free(narrowMessage); 
 

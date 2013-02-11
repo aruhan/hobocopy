@@ -63,9 +63,12 @@ public:
     static LPCSTR ConvertToMultibyteString(LPCTSTR s)
     {
         CString s2(s); 
-        LPSTR mbBuffer = new CHAR[s2.GetLength() + 1];
 #ifdef _UNICODE
-        int result = ::WideCharToMultiByte(CP_OEMCP, 0, s2, s2.GetLength(), mbBuffer, s2.GetLength(), NULL, NULL); 
+        int len = ::WideCharToMultiByte(CP_OEMCP, 0, s2, s2.GetLength(), NULL, 0, NULL, NULL);
+        LPSTR mbBuffer = new CHAR[len + 1];
+        memset(mbBuffer, 0, len + 1);
+
+        int result = ::WideCharToMultiByte(CP_OEMCP, 0, s2, s2.GetLength(), mbBuffer, len, NULL, NULL);
 
         if (result == 0)
         {
